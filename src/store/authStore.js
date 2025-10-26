@@ -7,6 +7,9 @@ const generateToken = () =>
   `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 
 const readUsers = () => {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') return [];
+  
   try {
     const raw = localStorage.getItem(USERS_KEY);
     if (!raw) return [];
@@ -30,6 +33,12 @@ export const useAuthStore = create((set, get) => ({
   isHydrated: false,
 
   hydrate: () => {
+    // Skip if we're not in a browser environment
+    if (typeof window === 'undefined') {
+      set({ isHydrated: true });
+      return;
+    }
+    
     const rawSession = localStorage.getItem(SESSION_KEY);
     if (!rawSession) {
       set({ isHydrated: true });

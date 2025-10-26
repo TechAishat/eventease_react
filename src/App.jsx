@@ -19,11 +19,16 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
-    hydrateAuth();
+    // Only hydrate auth if we're on a protected route
+    if (!location.pathname.startsWith('/auth') && location.pathname !== '/') {
+      hydrateAuth();
+    }
     hydrateTickets();
-  }, [hydrateAuth, hydrateTickets]);
+  }, [hydrateAuth, hydrateTickets, location.pathname]);
 
-  if (!isAuthHydrated || !isTicketHydrated) {
+  // Show loading state only if we're on a protected route and still hydrating
+  const isProtectedRoute = !['/', '/auth/login', '/auth/signup'].includes(location.pathname);
+  if (isProtectedRoute && (!isAuthHydrated || !isTicketHydrated)) {
     return (
       <div className="app-loading">
         <div className="spinner" aria-label="Loading" />
@@ -36,10 +41,15 @@ const App = () => {
     <>
       <ToastContainer />
       <Routes location={location}>
-        <Route element={<AppLayout />}>  
+        {/* Public routes with AppLayout */}
+        <Route element={<AppLayout />}>
           <Route path="/" element={<Landing />} />
+          
+          {/* Auth routes */}
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
+          
+          {/* Protected routes */}
           <Route
             path="/dashboard"
             element={
@@ -56,8 +66,10 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          
+          {/* Catch-all route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
