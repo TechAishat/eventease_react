@@ -1,0 +1,45 @@
+const Footer = () => (
+  <footer className="footer" role="contentinfo">
+    <div className="footer-inner">
+      <div>
+        <div className="footer-brand">
+          <span className="brand-icon" aria-hidden="true">
+            EE
+          </span>
+          <div>
+            <strong>EventEase Tickets</strong>
+            
+          </div>
+        </div>
+      </div>
+      <div>
+        
+        <h3>Product</h3>
+        <ul>
+           <li>Ticket Dashboard</li>
+          <li> Ticket Management</li>
+          <li>Real-time Collaboration</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Support</h3>
+        <ul>
+          <li>Help Center</li>
+          <li>Documentation</li>
+          <li>Community</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li>Email: support@eventease.dev</li>
+          <li>Phone: +234 800 123 4567</li>
+          <li>Mon - Fri: 8:00am - 6:00pm</li>
+        </ul>
+      </div>
+    </div>
+    <div className="footer-bottom">© {new Date().getFullYear()} EventEase. All rights reserved.</div>
+  </footer>
+);
+
+export default Footer;
